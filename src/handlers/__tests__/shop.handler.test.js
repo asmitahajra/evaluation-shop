@@ -141,10 +141,11 @@ describe('Find by Features handler', () => {
   });
 
   it('should set response status code to 400 , and return "No such item exists" if invalid request', async () => {
-    const spyOnShopService = jest.spyOn(shopServices, 'getFeatures');
+    const spyOnShopService = jest.spyOn(shopServices, 'getItemByFeatures');
     spyOnShopService.mockResolvedValue(checkValue);
-    await allShopHandlers.findByFeaturesHandler(mockRequest, mockResponse);
+    const result = await allShopHandlers.findByFeaturesHandler(mockRequest, mockResponse);
+    // console.log(result);
     expect(mockResponse.status).toHaveBeenCalledWith(400);
-    expect(mockResponse.status().send).toHaveBeenCalledWith('Failed to get features');
+    expect(mockResponse.status().send).toHaveBeenCalledWith('No such item exists');
   });
 });

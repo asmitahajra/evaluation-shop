@@ -39,7 +39,7 @@ const findByFeaturesHandler = async (req, res) => {
   // console.log(listOfItems);
   const compareWith = [];
   if (listOfItems.toString() === compareWith.toString()) {
-    return res.status(400).json('No such item exists');
+    return res.status(400).send('No such item exists');
   }
   res.status(200).send(listOfItems);
 };
