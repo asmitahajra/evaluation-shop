@@ -7,11 +7,20 @@ const shopServices = require('../services/shop.service');
 const getDataByCategoryHandler = async (req, res) => {
   const categoryName = req.params.name;
   // console.log(categoryName);
-  const features = await shopServices.getFeatures(categoryName);
-  if (features == null) {
-    return res.status(400).json('Failed to get features');
+  const gotFeatures = await shopServices.getFeatures(categoryName);
+  // console.log(gotFeatures);
+  const checkValue = {
+    features: {
+      colour: [],
+      size: [],
+      brand: [],
+    },
+  };
+  if (gotFeatures.features.colour.length === checkValue.features.colour.length) {
+    // console.log('here');
+    return res.status(400).send('Failed to get features');
   }
-  return res.status(200).send(features);
+  res.status(200).send(gotFeatures);
 };
 
 const fetchDataHandler = async (req, res) => {
@@ -19,9 +28,9 @@ const fetchDataHandler = async (req, res) => {
   const categoryArray = body.names;
   const result = await shopServices.fetchandStoreData(categoryArray);
   if (result === null) {
-    return res.status(400).json('Data already exists');
+    return res.status(400).send('Data already exists or invalid request');
   }
-  return res.status(200).json('Sucessfuly stored');
+  return res.status(200).send('Sucessfuly stored');
 };
 
 const findByFeaturesHandler = async (req, res) => {
