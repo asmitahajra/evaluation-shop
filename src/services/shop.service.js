@@ -12,7 +12,8 @@ const fetchandStoreData = async (categoryArray) => {
   let colour;
   let size;
   let brand;
-  let created = 0;
+  let createdItem = null;
+  const created = 0;
 
   let categoryName;
   let itemId;
@@ -20,8 +21,9 @@ const fetchandStoreData = async (categoryArray) => {
     categoryName = categoryArray[category];
 
     categoryDetails = await axios.get(`https://backend-evaluation-lgsvu.ondigitalocean.app/category?name=${categoryName}`);
-    console.log(categoryDetails);
+    // console.log(categoryDetails);
     categoryDetailsData = categoryDetails.data.itemMetadata;
+    // console.log(categoryDetailsData);
 
     for (item in categoryDetailsData) {
       itemId = categoryDetailsData[item].id;
@@ -47,18 +49,18 @@ const fetchandStoreData = async (categoryArray) => {
         },
       });
 
-      let createdItem = null;
       const toCheck = [];
       if (isPresentItem.toString() === toCheck.toString()) {
         createdItem = await Item.create({
           category: categoryName, item_id: itemId, colour, size, brand,
         });
 
-        created = 1;
+        // created = 1;
       }
     }
   }
-  return created;
+  // console.log(createdItem);
+  return createdItem;
 };
 
 const getFeatures = async (categoryName) => {

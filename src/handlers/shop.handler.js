@@ -18,12 +18,10 @@ const fetchDataHandler = async (req, res) => {
   const { body } = req;
   const categoryArray = body.names;
   const result = await shopServices.fetchandStoreData(categoryArray);
-  if (result === 1) {
-    return res.status(200).json('Fetched succesfuly');
-  }
-  if (result === 0) {
+  if (result === null) {
     return res.status(400).json('Data already exists');
   }
+  return res.status(200).json('Sucessfuly stored');
 };
 
 const findByFeaturesHandler = async (req, res) => {

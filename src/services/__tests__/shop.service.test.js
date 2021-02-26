@@ -2,43 +2,73 @@ const { default: axios } = require('axios');
 const shopServices = require('../shop.service');
 const { Item } = require('../../models');
 
-xdescribe('fetch and store service', () => {
-  const mockArray = ['phone'];
-  const mockValue =
-  //   const mockId = '-0DZUCVFcb';
-  //   const expectedValue = {
-  //     data: {
-  //       tags: ['famous-quotes'],
-  //       _id: '-14YplwiKmh',
-  //       content: 'A short saying often contains much wisdom.',
-  //       author: 'Sophocles',
-  //       length: 42,
-  //     },
-  //   };
+describe('fetch and store service', () => {
+  const mockArray = ['shoe'];
   afterEach(() => {
     jest.clearAllMocks();
   });
-  //   const createdValue = {
-  //     id: 14,
-  //     tags: [
-  //       'famous-quotes',
-  //     ],
-  //     _id: '-14YplwiKmh',
-  //     content: 'A short saying often contains much wisdom.',
-  //     author: 'Sophocles',
-  //     length: 42,
-  //     updatedAt: '2021-02-25T17:44:55.269Z',
-  //     createdAt: '2021-02-25T17:44:55.269Z',
-  //     status: null,
-  //   };
+  const mockValue = {
+    data: {
+      name: 'shoes',
+      description: 'radiant shoes',
+      itemMetadata: [
+        {
+          id: 'shoe_1',
+          name: 'nike air',
+          description: 'jordan made these famous!',
+        },
+      ],
+    },
+  };
 
-  //   const mockValue = [];
-  it('should fetch the data by category if not present and return 1 if succesfull', async () => {
-    jest.spyOn(axios, 'get').mockResolvedValue(expectedValue);
-    jest.spyOn(Quote, 'findAll').mockResolvedValue(mockValue);
-    jest.spyOn(Quote, 'create').mockResolvedValue(createdValue);
-    const result = await quoteServices.fetchAndStoreQuote(mockId);
-    expect(result).toStrictEqual(createdValue);
+  const mockFeatureValue = {
+    data: {
+      imageUrl: 'random image',
+      features: [
+        {
+          name: 'Color',
+          value: 'Red',
+        },
+        {
+          name: 'Size',
+          value: 7,
+        },
+        {
+          name: 'Brand',
+          value: 'Nike',
+        },
+      ],
+    },
+  };
+
+  const mockPresent = [];
+  const mockCreated = {
+    dataValues: {
+      id: 19,
+      category: 'shoe',
+      item_id: 'shoe_1',
+      colour: 'Red',
+      size: '7',
+      brand: 'Nike',
+    },
+    _previousDataValues: {
+      category: 'shoe',
+      item_id: 'shoe_7',
+      colour: 'Green',
+      size: '14',
+      brand: 'Nike',
+      id: 19,
+      name: null,
+    },
+  };
+
+  it('should fetch the data by category if not present and return 1 if succesful', async () => {
+    jest.spyOn(axios, 'get').mockResolvedValueOnce(mockValue);
+    jest.spyOn(axios, 'get').mockResolvedValue(mockFeatureValue);
+    jest.spyOn(Item, 'findAll').mockResolvedValue(mockPresent);
+    jest.spyOn(Item, 'create').mockResolvedValue(mockCreated);
+    const result = await shopServices.fetchandStoreData(mockArray);
+    expect(result).toEqual(mockCreated);
   });
 });
 
